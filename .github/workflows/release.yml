@@ -76,6 +76,7 @@ jobs:
             * **opendriver-v${{ env.VERSION_NAME }}-release-unsigned.apk**: APK de produção (não assinado).
           draft: false
           prerelease: false
+          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -90,5 +91,6 @@ jobs:
             Veja o arquivo `build_log.txt` anexo para detalhes do erro.
           draft: false
           prerelease: true
+          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
