@@ -55,6 +55,15 @@ jobs:
           name: build-error-log
           path: build_log.txt
 
+      - name: Expor erro no Resumo do Job
+        if: failure()
+        run: |
+          echo "## ❌ Erro de Compilação Detectado" >> $GITHUB_STEP_SUMMARY
+          echo "As últimas 150 linhas do log de compilação são exibidas abaixo:" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          tail -n 150 build_log.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
       - name: Renomear APKs para a Release
         run: |
           mkdir -p build/outputs/artifacts
