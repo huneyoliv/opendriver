@@ -140,9 +140,12 @@ object OfferParser {
     }
 
     private fun extractRating(text: String): Float? {
-        // Busca formatos comuns de nota de passageiro: 4.85 ou 4,9 ou 5.0
+        val ratingLine = text.lines().firstOrNull { 
+            it.contains("Avaliação", ignoreCase = true) || it.contains("★") 
+        } ?: text
+
         val regex = Regex("\\b([345][,.]\\d{1,2})\\b")
-        val match = regex.find(text) ?: return null
+        val match = regex.find(ratingLine) ?: return null
         return match.groupValues[1].replace(",", ".").toFloatOrNull()
     }
 
