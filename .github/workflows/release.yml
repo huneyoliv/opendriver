@@ -78,3 +78,17 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Criar GitHub Release de Falha e Upload dos Logs
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build_log.txt
+          name: Release v${{ env.VERSION_NAME }} - FALHOU
+          body: |
+            A compilação desta versão falhou no GitHub Actions.
+            Veja o arquivo `build_log.txt` anexo para detalhes do erro.
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
