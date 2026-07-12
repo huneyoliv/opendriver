@@ -46,7 +46,7 @@ jobs:
       - name: Compilar APKs (Debug & Release)
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug assembleRelease > build_log.txt 2>&1 || (cat build_log.txt && exit 1)
+          ./gradlew test assembleDebug assembleRelease > build_log.txt 2>&1 || (cat build_log.txt && exit 1)
 
       - name: Upload de log de erro em caso de falha
         if: failure()
