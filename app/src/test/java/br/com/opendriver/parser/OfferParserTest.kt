@@ -1,0 +1,78 @@
+package br.com.opendriver.parser
+
+import br.com.opendriver.data.parser.OfferParser
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+
+class OfferParserTest {
+
+    @Test
+    fun parse_uber_offer_returns_correct_fields() {
+        val rawText = """
+            Nova oferta UberX
+            R$ 15,90
+            5.4 km - 14 min
+            Avaliação: 4.85 ★
+            Rua das Oliveiras, 123
+            Avenida Central, 456
+        """.trimIndent()
+
+        val offer = OfferParser.parse(rawText, "com.ubercab.driver")
+
+        assertNotNull(offer)
+        assertEquals(15.90f, offer.valueRS)
+        assertEquals(5.4f, offer.distanceKm)
+        assertEquals(14, offer.estimatedMinutes)
+        assertEquals(4.85f, offer.passengerRating)
+        assertEquals("com.ubercab.driver", offer.platform)
+        assertEquals("Nova oferta UberX", offer.origin)
+        assertEquals("Rua das Oliveiras, 123", offer.destination)
+    }
+
+    @Test
+    fun parse_99_offer_returns_correct_fields() {
+        val rawText = """
+            Chamada 99Pop
+            R$25.00
+            12.0km - 25m
+            Avaliação: 4.90
+            De: Shopping Iguatemi
+            Para: Aeroporto Internacional
+        """.trimIndent()
+
+        val offer = OfferParser.parse(rawText, "com.app99.driver")
+
+        assertNotNull(offer)
+        assertEquals(25.00f, offer.valueRS)
+        assertEquals(12.0f, offer.distanceKm)
+        assertEquals(25, offer.estimatedMinutes)
+        assertEquals(4.90f, offer.passengerRating)
+        assertEquals("Shopping Iguatemi", offer.origin)
+        assertEquals("Aeroporto Internacional", offer.destination)
+    }
+
+    @Test
+    fun parse_with_stops_sets_hasStops_true() {
+        val rawText = """
+            UberX com 1 parada
+            R$ 18,50
+            8 km - 20 min
+            4.8
+        """.trimIndent()
+
+        val offer = OfferParser.parse(rawText, "com.ubercab.driver")
+
+        assertNotNull(offer)
+        assertTrue(offer.hasStops)
+        assertEquals(2, offer.legCount)
+    }
+
+    @Test
+    fun parse_blank_text_returns_null() {
+        assertNull(OfferParser.parse("", "com.ubercab.driver"))
+        assertNull(OfferParser.parse("   ", "com.ubercab.driver"))
+    }
+}
