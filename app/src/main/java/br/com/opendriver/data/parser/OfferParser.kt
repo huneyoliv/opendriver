@@ -147,15 +147,36 @@ object OfferParser {
     }
 
     private fun extractAddresses(text: String): Pair<String, String> {
-        // Divisão de origem e destino
-        // Tenta achar padrões comuns como "Origem: ... Destino: ..." ou "De ... Para ..."
-        // Se falhar, tenta achar linhas textuais longas que parecem logradouros usando o POI_PATTERN/LOGRADOURO_PREFIX
         val lines = text.lines()
             .map { it.trim() }
-            .filter { it.isNotBlank() && !it.contains("R$") && !it.contains("km") && !it.contains("min") }
+            .filter { line ->
+                line.isNotBlank() && 
+                !line.contains("R$") && 
+                !line.contains("km") && 
+                !line.contains("min", ignoreCase = true) &&
+                !line.contains("m\\b".toRegex()) &&
+                !line.contains("Avaliação", ignoreCase = true) &&
+                !line.contains("★")
+            }
 
-        val origin = lines.getOrNull(0) ?: "Origem desconhecida"
-        val destination = lines.getOrNull(1) ?: "Destino desconhecido"
+        var origin: String? = null
+        var destination: String? = null
+
+        for (line in lines) {
+            if (line.startsWith("De:", ignoreCase = true)) {
+                origin = line.substringAfter("De:").trim()
+            } else if (line.startsWith("Para:", ignoreCase = true)) {
+                destination = line.substringAfter("Para:").trim()
+            }
+        }
+
+        if (origin == null) {
+            origin = lines.getOrNull(0) ?: "Origem desconhecida"
+        }
+        if (destination == null) {
+            destination = lines.getOrNull(1) ?: "Destino desconhecido"
+        }
+
         return Pair(origin, destination)
     }
 }
