@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 
 class GradeOfferUseCaseTest {
 
@@ -114,15 +114,42 @@ class GradeOfferUseCaseTest {
         val useCase = GradeOfferUseCase(FakeSettingsRepository(settings))
 
         // Verde (>= 4.8)
-        val offerGreen = TripOffer(10f, 5f, 10, 4.8f, "com.ubercab.driver", "A", "B", false)
+        val offerGreen = TripOffer(
+            valueRS = 10f,
+            distanceKm = 5f,
+            estimatedMinutes = 10,
+            passengerRating = 4.8f,
+            platform = "com.ubercab.driver",
+            origin = "A",
+            destination = "B",
+            hasStops = false
+        )
         assertEquals(TripGrade.GREEN, useCase(offerGreen).gradeRating)
 
         // Amarelo (< 4.8 e >= 4.5)
-        val offerYellow = TripOffer(10f, 5f, 10, 4.6f, "com.ubercab.driver", "A", "B", false)
+        val offerYellow = TripOffer(
+            valueRS = 10f,
+            distanceKm = 5f,
+            estimatedMinutes = 10,
+            passengerRating = 4.6f,
+            platform = "com.ubercab.driver",
+            origin = "A",
+            destination = "B",
+            hasStops = false
+        )
         assertEquals(TripGrade.YELLOW, useCase(offerYellow).gradeRating)
 
         // Vermelho (< 4.5)
-        val offerRed = TripOffer(10f, 5f, 10, 4.4f, "com.ubercab.driver", "A", "B", false)
+        val offerRed = TripOffer(
+            valueRS = 10f,
+            distanceKm = 5f,
+            estimatedMinutes = 10,
+            passengerRating = 4.4f,
+            platform = "com.ubercab.driver",
+            origin = "A",
+            destination = "B",
+            hasStops = false
+        )
         assertEquals(TripGrade.RED, useCase(offerRed).gradeRating)
     }
 
