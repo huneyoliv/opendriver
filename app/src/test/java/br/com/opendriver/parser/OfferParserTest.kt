@@ -21,8 +21,8 @@ class OfferParserTest {
         """.trimIndent()
 
         val offer = OfferParser.parse(rawText, "com.ubercab.driver")
+            ?: throw AssertionError("Offer should not be null")
 
-        assertNotNull(offer)
         assertEquals(15.90f, offer.valueRS)
         assertEquals(5.4f, offer.distanceKm)
         assertEquals(14, offer.estimatedMinutes)
@@ -44,8 +44,8 @@ class OfferParserTest {
         """.trimIndent()
 
         val offer = OfferParser.parse(rawText, "com.app99.driver")
+            ?: throw AssertionError("Offer should not be null")
 
-        assertNotNull(offer)
         assertEquals(25.00f, offer.valueRS)
         assertEquals(12.0f, offer.distanceKm)
         assertEquals(25, offer.estimatedMinutes)
@@ -64,8 +64,8 @@ class OfferParserTest {
         """.trimIndent()
 
         val offer = OfferParser.parse(rawText, "com.ubercab.driver")
+            ?: throw AssertionError("Offer should not be null")
 
-        assertNotNull(offer)
         assertTrue(offer.hasStops)
         assertEquals(2, offer.legCount)
     }
@@ -84,7 +84,8 @@ class OfferParserTest {
             4.95
         """.trimIndent()
         val offer = OfferParser.parse(rawText, "com.ubercab.driver")
-        assertNotNull(offer)
+            ?: throw AssertionError("Offer should not be null")
+
         assertEquals(45.00f, offer.valueRS)
         assertEquals(20.0f, offer.distanceKm)
         assertEquals(75, offer.estimatedMinutes)
@@ -109,7 +110,8 @@ class OfferParserTest {
             2.0 km - 5 min
         """.trimIndent()
         val offer = OfferParser.parse(rawText, "com.ubercab.driver")
-        assertNotNull(offer)
+            ?: throw AssertionError("Offer should not be null")
+
         assertEquals("Origem desconhecida", offer.origin)
         assertEquals("Destino desconhecido", offer.destination)
     }
