@@ -72,7 +72,7 @@ dependencies {
 
     // DataStore
     implementation(libs.datastore)
-    implementation(libs.datastore-preferences)
+    implementation(libs.datastore.preferences)
 
     // Koin DI
     implementation(libs.koin.android)
@@ -85,7 +85,7 @@ dependencies {
     implementation(libs.coroutines.android)
 
     // Google Play Services Location
-    implementation(libs.play-services-location)
+    implementation(libs.play.services.location)
 
     // Test
     testImplementation(libs.junit)
