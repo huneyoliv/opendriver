@@ -4,6 +4,12 @@ import br.com.opendriver.domain.model.TripOffer
 
 object OfferParser {
 
+    val SUPPORTED_PACKAGES = setOf(
+        "com.ubercab.driver",
+        "com.app99.driver",
+        "br.com.motoristaone"
+    )
+
     private val UBER_WORD_PATTERN = Regex("\\buber\\b", RegexOption.IGNORE_CASE)
     private val STOPS_PATTERN = Regex(
         "\\b(\\d+)\\s*(?:paradas?|parada\\(s\\)|stops?)\\b",

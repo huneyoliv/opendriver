@@ -3,6 +3,7 @@ package br.com.opendriver.service
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
@@ -45,7 +46,7 @@ class ScreenCaptureService : Service() {
             NOTIFICATION_ID,
             createNotification(),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ActivityInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
             } else 0
         )
     }

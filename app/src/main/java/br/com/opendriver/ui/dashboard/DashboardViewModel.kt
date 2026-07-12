@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.opendriver.domain.repository.LocationRepository
 import br.com.opendriver.domain.repository.SettingsRepository
 import br.com.opendriver.domain.repository.TripRepository
+import br.com.opendriver.domain.model.DriverSettings
 import br.com.opendriver.service.FloatingButtonService
 import kotlinx.coroutines.flow.*
 import java.util.Calendar
@@ -24,7 +25,14 @@ class DashboardViewModel(
         settingsRepository.observeSettings(),
         FloatingButtonService.copilotActiveFlow,
         _trackerActive
-    ) { earnings, tripsCount, distance, settings, copilotActive, trackerActive ->
+    ) { flowsArray ->
+        val earnings = flowsArray[0] as Float
+        val tripsCount = flowsArray[1] as Int
+        val distance = flowsArray[2] as Float
+        val settings = flowsArray[3] as DriverSettings
+        val copilotActive = flowsArray[4] as Boolean
+        val trackerActive = flowsArray[5] as Boolean
+
         // Lucro líquido real por km = ganhos / km total - custo do veículo
         val netProfit = if (distance > 0f) {
             (earnings / distance) - settings.costPerKm

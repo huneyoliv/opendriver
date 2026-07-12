@@ -80,7 +80,7 @@ class LocationTrackerService : Service() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("OpenDriver GPS")
             .setContentText("Rastreando quilometragem rodada localmente...")
-            .setSmallIcon(android.R.drawable.ic_menu_mypaths)
+            .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }
